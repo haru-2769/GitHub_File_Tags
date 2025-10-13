@@ -1,0 +1,4 @@
+html body .react-directory-filename-cell a.git-filename-highlight,
+html body a.git-filename-highlight {
+  color: #dc143c !important;
+}

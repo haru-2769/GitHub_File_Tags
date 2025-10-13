@@ -1,29 +1,37 @@
 {
   "name": "github_file_tags",
   "version": "0.1.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "A Chrome extension to tag files on GitHub using TypeScript and Webpack.",
+  "license": "MIT",
+  "author": "",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/haru-2769/GitHub_File_Tags.git"
+    "url": "https://github.com/haru-2769/GitHub_File_Tags.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/haru-2769/GitHub_File_Tags/issues"
+  "scripts": {
+    "build": "cross-env NODE_ENV=production webpack",
+    "start": "cross-env NODE_ENV=development webpack --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "homepage": "https://github.com/haru-2769/GitHub_File_Tags#readme",
   "devDependencies": {
-    "@types/chrome": "^0.1.24",
-    "css-loader": "^7.1.2",
-    "mini-css-extract-plugin": "^2.9.4",
-    "ts-loader": "^9.5.4",
-    "typescript": "^5.9.3",
-    "webpack": "^5.102.1",
-    "webpack-cli": "^6.0.1"
-  }
+    "@types/chrome": "^0.0.289",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^10.2.4",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.7.1",
+    "mini-css-extract-plugin": "^2.6.0",
+    "terser-webpack-plugin": "^5.3.1",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1",
+    "webpack-ext-reloader": "^1.1.13",
+    "write-file-webpack-plugin": "^4.5.1"
+  },
+  "keywords": [
+    "Chrome Extension",
+    "TypeScript",
+    "Webpack",
+    "GitHub"
+  ]
 }
