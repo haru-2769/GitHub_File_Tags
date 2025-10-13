@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "GitHub File Tags",
+  "version": "1.0",
+  "action": {},
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "permissions": ["activeTab"],
+
+  "content_scripts": [
+    {
+      "matches": ["https://github.com/*"],
+      "js": ["content.js"],
+      "css": ["tag.css"],
+      "run_at": "document_start"
+    }
+  ]
+}
