@@ -9,24 +9,25 @@
     "url": "https://github.com/haru-2769/GitHub_File_Tags.git"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack",
-    "start": "cross-env NODE_ENV=development webpack --watch",
+    "build": "cross-env NODE_ENV=production webpack --mode=production",
+    "watch": "cross-env NODE_ENV=development webpack --mode=development --watch",
+    "dev:reload": "web-ext run --target=chromium --source-dir build --keep-profile-changes --start-url https://github.com/haru-2769/GitHub_File_Tags",
+    "start": "run-p watch dev:reload",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.289",
-    "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^10.2.4",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.1",
     "mini-css-extract-plugin": "^2.6.0",
+    "npm-run-all": "^4.1.5",
     "terser-webpack-plugin": "^5.3.1",
     "ts-loader": "^9.5.1",
     "typescript": "^5.3.3",
+    "web-ext": "^8.3.0",
     "webpack": "^5.97.1",
-    "webpack-cli": "^6.0.1",
-    "webpack-ext-reloader": "^1.1.13",
-    "write-file-webpack-plugin": "^4.5.1"
+    "webpack-cli": "^6.0.1"
   },
   "keywords": [
     "Chrome Extension",

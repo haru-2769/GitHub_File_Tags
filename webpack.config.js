@@ -1,38 +1,31 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const webpack = require("webpack");
 const path = require("path");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const webpack = require("webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const WriteFilePlugin = require("write-file-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-const ExtReloader = require("webpack-ext-reloader");
 
-const fileExtensions = [
-  "jpg",
-  "jpeg",
-  "png",
-  "gif",
-  "eot",
-  "otf",
-  "svg",
-  "ttf",
-  "woff",
-  "woff2",
-];
+const isDev = process.env.NODE_ENV === "development";
 
-const options = {
+module.exports = {
+  mode: isDev ? "development" : "production",
+  devtool: isDev ? "cheap-module-source-map" : false,
+
   entry: {
     content: path.join(__dirname, "src", "ts", "content.ts"),
     background: path.join(__dirname, "src", "ts", "background.ts"),
   },
+
   resolve: {
-    extensions: [".js", ".ts"],
+    extensions: [".ts", ".js"],
   },
+
   output: {
     path: path.join(__dirname, "build"),
     filename: "[name].js",
+    clean: true,
   },
+
   module: {
     rules: [
       {
@@ -43,21 +36,20 @@ const options = {
       {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, "css-loader"],
-        exclude: /node_modules/,
       },
       {
-        test: new RegExp(`.(${fileExtensions.join("|")})$`),
+        test: /\.(jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$/,
         type: "asset/resource",
-        generator: {
-          filename: "fonts/[name][ext]",
-        },
+        generator: { filename: "assets/[name][ext]" },
       },
     ],
   },
+
   plugins: [
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
     }),
+
     new CopyWebpackPlugin({
       patterns: [
         {
@@ -71,45 +63,12 @@ const options = {
               })
             ),
         },
-        {
-          from: "src/img",
-          to: "img",
-        },
+        { from: "src/img", to: "img", noErrorOnMissing: true },
       ],
     }),
-    new WriteFilePlugin(),
+
     new MiniCssExtractPlugin({ filename: "[name].css" }),
+
+    ...(!isDev ? [new TerserPlugin({ extractComments: false })] : []),
   ],
 };
-
-if (process.env.NODE_ENV === "development") {
-  options.mode = "development";
-  options.devtool = "cheap-module-source-map";
-  options.plugins.push(
-    new ExtReloader({
-      manifest: "src/manifest.json",
-      port: 9090,
-      reloadPage: true,
-      entries: {
-        contentScript: "content",
-        background: "background",
-      },
-    })
-  );
-} else if (process.env.NODE_ENV === "production") {
-  options.mode = "production";
-  options.plugins.push(
-    new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: "build" }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-      debug: false,
-    }),
-    new TerserPlugin()
-  );
-  options.stats = {
-    colors: true,
-    errorDetails: true,
-  };
-}
-
-module.exports = options;
