@@ -34,5 +34,8 @@
     "TypeScript",
     "Webpack",
     "GitHub"
-  ]
+  ],
+  "dependencies": {
+    "selector-observer": "^2.1.6"
+  }
 }
