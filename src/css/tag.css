@@ -1,4 +1,10 @@
-html body .react-directory-filename-cell a.git-filename-highlight,
-html body a.git-filename-highlight {
-  color: #dc143c !important;
+.docs-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  background-color: #28a745; /* 見やすい緑色 */
+  border-radius: 10px;
+  line-height: 1.5;
 }

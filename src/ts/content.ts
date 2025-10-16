@@ -1,14 +1,40 @@
 import "../css/tag.css";
 import { observe } from "selector-observer";
 
-const HIGHLIGHT_CLASS = "git-filename-highlight";
+function processCommitLink(commitLinkEl: HTMLElement): void {
+  const rowElement = commitLinkEl.closest("tr.react-directory-row");
+  if (!rowElement) {
+    return;
+  }
 
-function applyColorChange(linkElement: HTMLElement) {
-  linkElement.classList.add(HIGHLIGHT_CLASS);
+  const filenameLink = rowElement.querySelector<HTMLAnchorElement>(
+    "td.react-directory-row-name-cell-large-screen a"
+  );
+
+  if (!filenameLink || !filenameLink.textContent?.trim().endsWith(".md")) {
+    return;
+  }
+
+  const commitCell = rowElement.querySelector<HTMLTableCellElement>(
+    "td.react-directory-row-commit-cell"
+  );
+
+  if (!commitCell) {
+    return;
+  }
+
+  commitCell.innerHTML = "";
+  const docsTag = document.createElement("span");
+  docsTag.className = "docs-tag";
+  docsTag.textContent = "docs";
+  commitCell.appendChild(docsTag);
 }
 
-observe('a[href*="/blob/"], a[href*="/tree/"]', {
-  add(linkElement) {
-    applyColorChange(linkElement as HTMLElement);
-  },
-});
+observe(
+  "td.react-directory-row-commit-cell .react-directory-commit-message a",
+  {
+    add(commitLinkEl) {
+      processCommitLink(commitLinkEl as HTMLElement);
+    },
+  }
+);
