@@ -15,12 +15,13 @@
     "dev:reload": "web-ext run --target=chromium --source-dir build --keep-profile-changes --start-url https://github.com/haru-2769/GitHub_File_Tags",
     "start": "npm run build:dev && run-p watch dev:reload",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
     "lint": "eslint \"src/ts/**/*.ts\"",
     "lint:fix": "eslint \"src/ts/**/*.ts\" --fix",
     "format": "prettier --write \"src/**/*.{ts,js,css,json,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,js,css,json,md}\"",
     "prepare": "husky install",
-    "pre-commit": "lint-staged"
+    "pre-commit": "npm run typecheck && lint-staged"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.289",
@@ -39,7 +40,7 @@
     "prettier": "^3.6.2",
     "terser-webpack-plugin": "^5.3.1",
     "ts-loader": "^9.5.1",
-    "typescript": "^5.3.3",
+    "typescript": "^5.9.3",
     "web-ext": "^8.3.0",
     "webpack": "^5.97.1",
     "webpack-cli": "^6.0.1"
@@ -54,7 +55,12 @@
     "selector-observer": "^2.1.6"
   },
   "lint-staged": {
-    "src/**/*.{ts,css}": "prettier --write",
-    "src/**/*.ts": "eslint --fix"
+    "src/**/*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "src/**/*.css": [
+      "prettier --write"
+    ]
   }
 }
