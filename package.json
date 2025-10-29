@@ -62,5 +62,9 @@
     "src/**/*.css": [
       "prettier --write"
     ]
+  },
+  "volta": {
+    "node": "22.20.0",
+    "npm": "10.9.3"
   }
 }
